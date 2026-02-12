@@ -1,6 +1,11 @@
 import ImageTabs from "@/components/image-tabs";
 import { Button } from "@/components/ui/button";
-import { ArrowRightIcon } from "lucide-react";
+import {
+  ArrowRightIcon,
+  Briefcase,
+  CheckCircle2,
+  TrendingUp,
+} from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -33,7 +38,55 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Hero Images Section with Tabs */}
         <ImageTabs />
+
+        {/* Features Section */}
+        <section className="border-t bg-white py-24">
+          <div className="container mx-auto px-4">
+            <div className="grid gap-12 md:grid-cols-3">
+              <div className="flex flex-col items-start  ">
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-md border">
+                  <Briefcase className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="mb-2 text-xl font-semibold text-black">
+                  Organize Applications
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Create custom boards and columns to track your job
+                  applications at every stage of the process.
+                </p>
+              </div>
+
+              <div className="flex flex-col items-start ">
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-md border">
+                  <TrendingUp className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="mb-2 text-xl font-semibold text-black">
+                  Track Progress
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Monitor your application status from applied to interview to
+                  offer with visual Kanban boards.
+                </p>
+              </div>
+
+              <div className="flex flex-col items-start">
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-md border">
+                  <CheckCircle2 className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="mb-2 text-xl font-semibold text-black">
+                  Stay Organized
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Never lose track of an application. Keep all your job search
+                  information in one centralized place.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );
