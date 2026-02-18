@@ -39,4 +39,4 @@ const ColumnSchema = new Schema<IColumn>(
 );
 
 export default mongoose.models.Column ||
-  mongoose.model<IColumn>("Coulmn", ColumnSchema);
+  mongoose.model<IColumn>("Column", ColumnSchema);
