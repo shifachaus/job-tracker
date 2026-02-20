@@ -1,6 +1,6 @@
 "use client";
 
-import { Board, Column } from "@/lib/models/models.types";
+import { Board, Column, JobApplication } from "@/lib/models/models.types";
 import {
   Award,
   Calendar,
@@ -19,6 +19,8 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import CreateJobApplicationDialog from "./create-job-application-dialog";
+import JobApplicationCard from "./job-application-card";
+import column from "@/lib/models/column";
 
 interface KanbanBoardProps {
   board: Board;
@@ -56,13 +58,18 @@ function DroppableColumn({
   column,
   boardId,
   config,
+  sortedColumns,
 }: {
   column: Column;
   boardId: string;
   config: ColConfig;
+  sortedColumns: Column[];
 }) {
+  const sortedJobs =
+    column.jobApplication?.sort((a, b) => a.order - b.order) || [];
+
   return (
-    <Card className="min-w-[300px] flex-shrink-0 shadow-md p-0">
+    <Card className="min-w-75 shrink-0 shadow-md p-0">
       <CardHeader
         className={`${config.color} text-white rounded-t-lg pb-3 pt-3`}
       >
@@ -94,14 +101,40 @@ function DroppableColumn({
       </CardHeader>
 
       <CardContent className="space-y-2 pt-4 bg-gray-50/50 min-h-100 rounded-b-lg">
+        {sortedJobs.map((job, key) => {
+          return (
+            <SortableJobCard
+              key={key}
+              job={{ ...job, columnId: job.columnId || column._id }}
+              columns={sortedColumns}
+            />
+          );
+        })}
         <CreateJobApplicationDialog columnId={column._id} boardId={boardId} />
       </CardContent>
     </Card>
   );
 }
 
+function SortableJobCard({
+  job,
+  columns,
+}: {
+  job: JobApplication;
+  columns: Column[];
+}) {
+  return (
+    <div>
+      <JobApplicationCard job={job} columns={columns} />
+    </div>
+  );
+}
+
 const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
   const columns = board.columns;
+
+  const sortedColumns = columns?.sort((a, b) => a.order - b.order) || [];
+
   return (
     <>
       <div className="">
@@ -117,6 +150,7 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
                 column={col}
                 config={config}
                 boardId={board._id}
+                sortedColumns={sortedColumns}
               />
             );
           })}
