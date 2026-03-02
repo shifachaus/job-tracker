@@ -20,7 +20,6 @@ import {
 import { Button } from "./ui/button";
 import CreateJobApplicationDialog from "./create-job-application-dialog";
 import JobApplicationCard from "./job-application-card";
-import column from "@/lib/models/column";
 
 interface KanbanBoardProps {
   board: Board;
@@ -66,7 +65,7 @@ function DroppableColumn({
   sortedColumns: Column[];
 }) {
   const sortedJobs =
-    column.jobApplication?.sort((a, b) => a.order - b.order) || [];
+    column?.jobApplications?.sort((a, b) => a.order - b.order) || [];
 
   return (
     <Card className="min-w-75 shrink-0 shadow-md p-0">
@@ -131,7 +130,7 @@ function SortableJobCard({
 }
 
 const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
-  const columns = board.columns;
+  const columns = board?.columns;
 
   const sortedColumns = columns?.sort((a, b) => a.order - b.order) || [];
 
@@ -139,7 +138,7 @@ const KanbanBoard = ({ board, userId }: KanbanBoardProps) => {
     <>
       <div className="">
         <div className="">
-          {columns.map((col, key) => {
+          {columns?.map((col, key) => {
             const config = COLUMN_CONFIG[key] || {
               color: "bg-cyan-500",
               icon: <Calendar className="h-4 w-4" />,

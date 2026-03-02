@@ -16,10 +16,9 @@ async function getBoard(userId: string) {
   }).populate({
     path: "columns",
     populate: {
-      path: "jobApplication",
+      path: "jobApplications",
     },
   });
-
   if (!boardDoc) return null;
 
   const board = JSON.parse(JSON.stringify(boardDoc));
@@ -38,7 +37,7 @@ async function DashboardPage() {
     <div className="min-h-screen bg-white">
       <div className="container mx-auto p-6">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-black">{board.name}</h1>
+          <h1 className="text-3xl font-bold text-black">{board?.name}</h1>
           <p className="text-gray-600">Track your job application</p>
         </div>
         <KanbanBoard board={board} userId={session.user.id} />

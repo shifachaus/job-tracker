@@ -3,7 +3,7 @@ import { Board, Column } from "./models";
 
 const DEFAULT_COLUMNS = [
   {
-    name: "Wist List",
+    name: "Wish List",
     order: 0,
   },
   {
@@ -42,7 +42,7 @@ export async function initializeUserBoard(userId: string) {
     const board = await Board.create({
       name: "Job Hunt",
       userId,
-      column: [],
+      columns: [],
     });
 
     // Create the default columns
@@ -52,7 +52,7 @@ export async function initializeUserBoard(userId: string) {
           name: col.name,
           order: col.order,
           boardId: board._id,
-          jobApplication: [],
+          jobApplications: [],
         }),
       ),
     );
