@@ -1,6 +1,9 @@
 "use client";
 
-import { updateJobApplication } from "@/lib/actions/job-applications";
+import {
+  deleteJobApplication,
+  updateJobApplication,
+} from "@/lib/actions/job-applications";
 import { Column, JobApplication } from "@/lib/models/models.types";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
@@ -64,15 +67,29 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
     }
   }
 
+  async function handleDelete() {
+    try {
+      const result = await deleteJobApplication(job._id);
+      console.log(result, job._id);
+
+      if (result.error) {
+        console.error("Failed to delete job application:", result.error);
+      }
+    } catch (err) {
+      console.error("Failed to delete job application:", err);
+    }
+  }
+
   async function handleMove(newColumnId: string) {
     try {
       const result = await updateJobApplication(job._id, {
         columnId: newColumnId,
       });
     } catch (err) {
-      console.error("Failed to move job application:", err);
+      console.error("Failed to move job application: ", err);
     }
   }
+
   return (
     <>
       <Card className="cursor-pointer transition-shadow hover:shadow-lg bg-white group shadow-sm">
@@ -137,7 +154,10 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
                         ))}
                     </>
                   )}
-                  <DropdownMenuItem className="text-destructive">
+                  <DropdownMenuItem
+                    className="text-destructive"
+                    onClick={handleDelete}
+                  >
                     <Trash2 className="mr-2 h-4 w-4" />
                     Delete
                   </DropdownMenuItem>
@@ -149,16 +169,6 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
       </Card>
 
       <Dialog open={isEditing} onOpenChange={setIsEditing}>
-        <DialogTrigger>
-          <Button
-            variant="outline"
-            className=" mb-4 justify-start text-muted-foreground border-dashed border-2 hover:border-solid hover:bg-muted/50 transition"
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            Add Job
-          </Button>
-        </DialogTrigger>
-
         <DialogContent className="max-w-2xl p-0 overflow-hidden">
           <div className="p-6 pb-4">
             <DialogHeader>
