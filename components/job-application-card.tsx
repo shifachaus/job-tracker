@@ -48,7 +48,7 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
   async function handleUpdate(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
-      const result = updateJobApplication(job._id, {
+      const result = await updateJobApplication(job._id, {
         ...formData,
         tags: formData.tags
           .split(",")
@@ -66,7 +66,9 @@ const JobApplicationCard = ({ job, columns }: JobApplicationCardProps) => {
 
   async function handleMove(newColumnId: string) {
     try {
-      const result = updateJobApplication(job._id, { columnId: newColumnId });
+      const result = await updateJobApplication(job._id, {
+        columnId: newColumnId,
+      });
     } catch (err) {
       console.error("Failed to move job application:", err);
     }
